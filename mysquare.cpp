@@ -56,11 +56,15 @@ void MySquare::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
         painter->setPen(pen);
         painter->drawLine(line);
     }
+    bank_intersect.append(intersectionPoints);
+    qDebug() << " bank_intersect " << bank_intersect;
+
 }
 
 void MySquare::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     pressed = false;
+    bank_end.append(end);
     end = event->scenePos().toPoint();
 //    qDebug() << "Pressed, end " << start;
     line.setPoints(start,end);
@@ -68,10 +72,17 @@ void MySquare::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     update();
     QGraphicsItem::mouseReleaseEvent(event);
 
-    start = QPointF(0,0);
-    end = QPointF(0,0);
 
-//    qDebug() << "intersection points " << intersectionPoints;
+    if(start.y() < end.y()){
+        lower.append(start);
+        upper.append(end);
+    }
+    else if(start.y() > end.y()){
+        lower.append(end);
+        upper.append(start);
+    }
+    qDebug() << "Upper " << lower;
+    qDebug() << "Lower " << upper;
 }
 
 void MySquare::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -80,7 +91,6 @@ void MySquare::mousePressEvent(QGraphicsSceneMouseEvent *event)
 //    qDebug() << "Pressed, start: " << start;
     pressed = true;
 
-//    update();
 }
 
 void MySquare::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

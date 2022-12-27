@@ -46,9 +46,13 @@ Widget::~Widget()
 
 void Widget::on_pushButton_clicked()
 {
+
+
     square1->lines.clear();
     square1->intersectionPoints.clear();
+    square1->bank_intersect.clear();
     square1->update();
+
 
 //    QPen newPen (Qt::green);
 //    newPen.setWidth(width);
